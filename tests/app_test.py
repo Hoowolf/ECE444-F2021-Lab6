@@ -19,6 +19,13 @@ def client():
     yield app.test_client()  # tests run here
     db.drop_all()  # teardown
 
+def search(client):
+    return client.get("/search", follow_redirects=True)
+
+def test_search(client):
+    rv = search(client)
+    assert rv.status_code == 200
+    
 def login(client, username, password):
     """Login helper function"""
     return client.post(
